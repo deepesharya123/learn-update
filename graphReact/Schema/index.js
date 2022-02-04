@@ -7,23 +7,23 @@ const {
   GraphQLList,
 } = graphql;
 
-const UserType = require('./TypeDefs/UserType');
-var db = require('../models');
-const User = db.users;
-
+const {USER_LIST,USER_LIST2} = require('./Queries/User');
+ const {USER_ADD} = require('./Mutations/User');
 const RootQuery = new GraphQLObjectType({
   name: "xyz",
   fields: {
-    userList: {
-      type: new GraphQLList(UserType),
-      // resolver
-      resolve(parent, args) {
-        let data = User.findAll();
-        return data;
-      },
-    },
+    userList: USER_LIST,
+    codeimprove:USER_LIST2
   },
 });
 
+const Mutation = new GraphQLObjectType({
+    name:"mutation",
+    fields:{
+      createUser:USER_ADD,
+      // updateUser:UPDATE_USER
+    }
+})
+
 // RootQuery
-module.exports = new GraphQLSchema({ query: RootQuery });
+module.exports = new GraphQLSchema({ query: RootQuery, mutation:Mutation });

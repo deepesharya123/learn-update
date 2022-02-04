@@ -55,11 +55,12 @@ const RootQuery = new GraphQLObjectType({
         return data;
       },
     },
+    // resolver
     userList: {
       type: new GraphQLList(UserType),
-      // resolver
-      resolve(parent, args) {
-        let data = User.findAll();
+      resolve(parent, args,context) {
+        console.log("context ",context)
+        let data = parent.dbConfig.users.findAll();
         return data;
       },
     },
